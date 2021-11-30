@@ -1,5 +1,6 @@
 <template>
   <div>
+    <OrderAlert v-if="enrolmentSuccess" />
     <h1>{{ courses[0].title }}</h1>
     <ul>
       <li v-for="lesson in lessons" :key="lesson.id">
@@ -10,13 +11,34 @@
 </template>
 
 <script>
+import OrderAlert from "../../components/OrderAlert";
+import { Client } from "../../coursekit-client"
+const schoolId = ''
+
 export default {
+  components: {OrderAlert},
   async asyncData ({ params, $content }) {
-    const courses = await $content('courses').where({ id: parseInt(params.id) }).fetch()
-    const lessons = await $content('lessons').where({ course: parseInt(params.id) }).sortBy('id', 'asc').fetch()
+    let courses = await $content('courses').where({ id: parseInt(params.id) }).fetch()
+    let lessons = await $content('lessons').where({ course: parseInt(params.id) }).sortBy('order', 'asc').fetch()
+    if (process.client) {
+      const client = new Client(schoolId)
+      const loggedIn = await client.isLoggedIn
+      if (loggedIn) {
+        courses = client.enrichCourses(courses)
+        lessons = client.enrichLessons(params.id, lessons)
+      }
+    }
     return {
       courses,
       lessons
+    }
+  },
+  data: () => ({
+    enrolmentSuccess: false
+  }),
+  mounted () {
+    if (this.$route.query.sale) {
+      this.enrolmentSuccess = true
     }
   }
 }

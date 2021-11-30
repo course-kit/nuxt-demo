@@ -8,9 +8,19 @@
 </template>
 
 <script>
+import { Client } from "../coursekit-client"
+const schoolId = ''
+
 export default {
   async asyncData ({ $content }) {
-    const courses = await $content('courses').fetch()
+    let courses = await $content('courses').sortBy('order', 'asc').fetch()
+    if (process.client) {
+      const client = new Client(schoolId)
+      const loggedIn = await client.isLoggedIn
+      if (loggedIn) {
+        courses = client.enrichCourses(courses)
+      }
+    }
     return {
       courses
     }
