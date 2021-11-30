@@ -2,6 +2,7 @@ const plugin = require('tailwindcss/plugin')
 
 module.exports = {
   plugins: [
+    require('@tailwindcss/typography'),
     require('@tailwindcss/aspect-ratio'),
     plugin(function({ addUtilities }) {
       const newUtilities = {
@@ -9,7 +10,6 @@ module.exports = {
           'max-width': '760px',
         }
       }
-
       addUtilities(newUtilities, ['responsive', 'hover'])
     })
   ],

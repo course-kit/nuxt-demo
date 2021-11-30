@@ -1,25 +1,71 @@
 <template>
   <div id="responsiveVideoWrapper" class="aspect-w-16 aspect-h-9">
     <div v-show="state === 'ready'" id="video" />
-    <PlayerControls v-if="state === 'unauthorized'" thumb="https://cdn.api.video/vod/vi141dgM0FgbyksbrvGDWPhL/thumbnail.jpg">
-      <p class="font-bold text-white">You'll need to enrol in this course to see this video.</p>
+    <PlayerControls v-if="state === 'unauthorized'" :thumb="lesson.thumb">
+      <p class="font-bold text-white">
+        You'll need to enrol in this course to see this video.
+      </p>
       <div class="mt-2">
-        <a :href="course.enrolUrl" class="bg-blue-500 hover:bg-blue-600 border-blue-500 border-2 text-white font-bold py-2 px-4 rounded">Enrol</a>
+        <a
+          :href="course.enrolUrl"
+          class="
+            bg-blue-500
+            hover:bg-blue-600
+            border-blue-500 border-2
+            text-white
+            font-bold
+            py-2
+            px-4
+            rounded
+          "
+          >Enrol</a
+        >
       </div>
     </PlayerControls>
-    <PlayerControls v-else-if="state === 'unauthenticated'" thumb="https://cdn.api.video/vod/vi141dgM0FgbyksbrvGDWPhL/thumbnail.jpg">
-      <p class="font-bold text-white">You'll need to enrol in this course to see this video.</p>
+    <PlayerControls
+      v-else-if="state === 'unauthenticated'"
+      :thumb="lesson.thumb"
+    >
+      <p class="font-bold text-white">
+        You'll need to enrol in this course to see this video.
+      </p>
       <div class="mt-2">
-        <a :href="course.enrolUrl" class="bg-blue-500 hover:bg-blue-600 border-blue-500 border-2 text-white font-bold py-2 px-4 rounded">Enrol</a>
-        <a :href="loginUrl" class="bg-transparent border-blue-500 border-2 hover:bg-blue-600 text-white font-bold py-2 px-4 rounded">Log in</a>
+        <a
+          :href="course.enrolUrl"
+          class="
+            bg-blue-500
+            hover:bg-blue-600
+            border-blue-500 border-2
+            text-white
+            font-bold
+            py-2
+            px-4
+            rounded
+          "
+          >Enrol</a
+        >
+        <a
+          :href="loginUrl"
+          class="
+            bg-transparent
+            border-blue-500 border-2
+            hover:bg-blue-600
+            text-white
+            font-bold
+            py-2
+            px-4
+            rounded
+          "
+          >Log in</a
+        >
       </div>
     </PlayerControls>
     <PlayerLoading v-else-if="state === 'loading'" />
   </div>
 </template>
 <script>
-import { VideoLoader } from "../coursekit-client"
-import PlayerControls from "./PlayerControls";
+import { VideoLoader } from '../coursekit-client'
+import PlayerControls from './PlayerControls'
 import PlayerLoading from './PlayerLoading'
 
 export default {
@@ -27,18 +73,18 @@ export default {
   props: {
     course: {
       type: Object,
-      required: true
+      required: true,
     },
     lesson: {
       type: Object,
-      required: true
-    }
+      required: true,
+    },
   },
   data: () => ({
     state: 'loading',
-    loginUrl: null
+    loginUrl: null,
   }),
-  async created () {
+  async created() {
     if (process.client) {
       const loader = new VideoLoader(this.course.id, this.lesson.id)
 
@@ -58,9 +104,7 @@ export default {
       if (status === 403) {
         this.state = 'unauthorized'
       }
-
     }
-  }
+  },
 }
-
 </script>

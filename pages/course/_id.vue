@@ -1,25 +1,41 @@
 <template>
   <div>
     <OrderAlert v-if="enrolmentSuccess" />
-    <h1>{{ courses[0].title }}</h1>
-    <ul>
-      <li v-for="lesson in lessons" :key="lesson.id">
-        <nuxt-link :to="`/lesson/${lesson.id}`">{{ lesson.title }}</nuxt-link>
-      </li>
-    </ul>
+    <h1 class="text-4xl mb-8 font-bold text-yellow-900">
+      {{ course.title }}
+    </h1>
+    <NuxtContent class="prose prose-sm sm:prose" :document="course" />
+    <a :href="course.enrolUrl" class="inline-block mt-6 text-lg font-bold rounded py-3 px-6 bg-yellow-600 text-white">Enrol now</a>
+    <h2 class="mt-12 text-yellow-900 text-2xl font-bold">Lessons</h2>
+    <div class="mt-6 grid lg:grid-cols-3 md:grid-cols-2 sm:grid-cols-1 gap-8">
+      <Card
+        v-for="lesson in lessons"
+        :key="lesson.id"
+        :title="lesson.title"
+        :description="lesson.description"
+        :thumb="lesson.thumb"
+        :path="`/lesson/${lesson.id}`"
+      />
+    </div>
   </div>
 </template>
 
 <script>
-import OrderAlert from "../../components/OrderAlert";
-import { Client } from "../../coursekit-client"
+import OrderAlert from '../../components/OrderAlert'
+import { Client } from '../../coursekit-client'
 const schoolId = ''
 
 export default {
-  components: {OrderAlert},
-  async asyncData ({ params, $content }) {
-    let courses = await $content('courses').where({ id: parseInt(params.id) }).fetch()
-    let lessons = await $content('lessons').where({ course: parseInt(params.id) }).sortBy('order', 'asc').fetch()
+  components: { OrderAlert },
+  async asyncData({ params, $content }) {
+    let courses = await $content('courses')
+      .where({ id: parseInt(params.id) })
+      .fetch()
+    const course = courses[0]
+    let lessons = await $content('lessons')
+      .where({ course: parseInt(params.id) })
+      .sortBy('order', 'asc')
+      .fetch()
     if (process.client) {
       const client = new Client(schoolId)
       const loggedIn = await client.isLoggedIn
@@ -29,17 +45,17 @@ export default {
       }
     }
     return {
-      courses,
-      lessons
+      course,
+      lessons,
     }
   },
   data: () => ({
-    enrolmentSuccess: false
+    enrolmentSuccess: false,
   }),
-  mounted () {
+  mounted() {
     if (this.$route.query.sale) {
       this.enrolmentSuccess = true
     }
-  }
+  },
 }
 </script>
