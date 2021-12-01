@@ -6,16 +6,18 @@ class VideoLoader {
 
   courseId
   lessonId
+  baseUrl
 
-  constructor(courseId, lessonId) {
+  constructor(courseId, lessonId, opts = {}) {
     this.courseId = courseId
     this.lessonId = lessonId
+    this.baseUrl = opts.baseUrl || 'https://coursekit.dev'
   }
 
   async createPlayer(targetSelector, playerOptions = {}) {
     try {
       const response = await fetch(
-        `http://localhost:8080/api/${this.courseId}/${this.lessonId}`,
+        `${this.baseUrl}/api/${this.courseId}/${this.lessonId}`,
         {
           method: 'POST',
           credentials: 'include'

@@ -1,6 +1,6 @@
 <template>
   <div class="w-full h-full bg-yellow-100 flex items-center justify-center">
-    <FadeLoader height="30px" width="10px" radius="40px" color="#b45309" />
+    <FadeLoader height="20px" width="7px" radius="30px" color="#b45309" />
   </div>
 </template>
 <script>
@@ -13,6 +13,6 @@ export default {
 </script>
 <style>
 .v-spinner {
-  transform: translate(-7px, -17px);
+  transform: translate(-6px, -13px);
 }
 </style>

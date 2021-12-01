@@ -1,14 +1,13 @@
 <template>
-  <figure class="thumb">
-    <img :src="thumb" alt="" />
-    <div class="overlay">
-      <div class="controls">
-        <div class="controls-content">
+  <div class="aspect-w-16 aspect-h-9 bg-cover bg-center thumb" :style="{ 'background-image': `url(${thumb})` }">
+    <div class="absolute w-full h-full z-10 overlay">
+      <div class="controls z-20 flex flex-col h-full justify-center">
+        <div class="controls-content flex items-center flex-col z-10">
           <slot></slot>
         </div>
       </div>
     </div>
-  </figure>
+  </div>
 </template>
 <script>
 export default {
@@ -21,31 +20,6 @@ export default {
 }
 </script>
 <style>
-.thumb {
-  padding-top: 56.25%;
-  position: relative;
-  display: block;
-}
-
-.thumb > img {
-  height: 100%;
-  width: 100%;
-  bottom: 0;
-  left: 0;
-  position: absolute;
-  right: 0;
-  top: 0;
-  display: block;
-  filter: blur(1px);
-}
-
-.overlay {
-  width: 100%;
-  height: 100%;
-  position: absolute;
-  z-index: 10;
-  top: 0;
-}
 .overlay::before {
   content: '';
   width: 100%;
@@ -55,18 +29,5 @@ export default {
   opacity: 0.6;
   top: 0;
   left: 0;
-}
-.controls {
-  z-index: 11;
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  height: 100%;
-}
-.controls-content {
-  z-index: 1;
-  display: flex;
-  align-items: center;
-  flex-direction: column;
 }
 </style>

@@ -4,7 +4,7 @@ export default {
 
   // Global page headers: https://go.nuxtjs.dev/config-head
   head: {
-    title: 'nuxt-content-blog',
+    title: 'MyCourse',
     htmlAttrs: {
       lang: 'en'
     },
@@ -17,6 +17,11 @@ export default {
     link: [
       { rel: 'icon', type: 'image/x-icon', href: '/favicon.ico' }
     ]
+  },
+
+  env: {
+    NODE_ENV: process.env.NODE_ENV || 'http://localhost:3000',
+    API_URL: process.env.API_URL || 'http://localhost:8080'
   },
 
   // Global CSS: https://go.nuxtjs.dev/config-css
