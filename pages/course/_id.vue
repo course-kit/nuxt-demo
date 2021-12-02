@@ -1,6 +1,22 @@
 <template>
   <div>
-    <OrderAlert v-if="enrolmentSuccess" />
+    <Alert v-if="enrolmentSuccess">
+      <h3 class="font-medium text-green-800">Purchase successful! Now, one more thing...</h3>
+      <div class="mt-2 text-sm text-green-700">
+        <p>
+          To complete your enrolment, check your email and activate your
+          account.
+        </p>
+      </div>
+    </Alert>
+    <Alert v-if="registrationSuccess">
+      <h3 class="font-medium text-green-800">Thanks for registering</h3>
+      <div class="mt-2 text-sm text-green-700">
+        <p>
+          Now you can get started on your course.
+        </p>
+      </div>
+    </Alert>
     <h1 class="text-4xl mb-8 font-bold text-yellow-900">
       {{ course.title }}
     </h1>
@@ -21,12 +37,10 @@
 </template>
 
 <script>
-import OrderAlert from '../../components/OrderAlert'
 import { Client } from '../../coursekit-client'
 const schoolId = ''
 
 export default {
-  components: { OrderAlert },
   async asyncData({ params, $content }) {
     let courses = await $content('courses')
       .where({ id: parseInt(params.id) })
@@ -51,10 +65,14 @@ export default {
   },
   data: () => ({
     enrolmentSuccess: false,
+    registrationSuccess: false
   }),
   mounted() {
     if (this.$route.query.sale) {
       this.enrolmentSuccess = true
+    }
+    if (this.$route.query.registered) {
+      this.registrationSuccess = true
     }
   },
 }
