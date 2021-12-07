@@ -17,7 +17,7 @@ class VideoLoader {
   async createPlayer(targetSelector, playerOptions = {}) {
     try {
       const response = await fetch(
-        `${this.baseUrl}/api/${this.courseId}/${this.lessonId}`,
+        `${this.baseUrl}/${this.courseId}/${this.lessonId}`,
         {
           method: 'POST',
           credentials: 'include'

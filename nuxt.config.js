@@ -20,8 +20,8 @@ export default {
   },
 
   env: {
-    NODE_ENV: process.env.NODE_ENV || 'http://localhost:3000',
-    API_URL: process.env.API_URL || 'http://localhost:8080'
+    NODE_ENV: process.env.NODE_ENV || 'development',
+    API_URL: process.env.API_URL || 'http://api.coursekit.test:8080'
   },
 
   // Global CSS: https://go.nuxtjs.dev/config-css
