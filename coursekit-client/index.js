@@ -11,7 +11,7 @@ class VideoLoader {
   constructor(courseId, lessonId, opts = {}) {
     this.courseId = courseId
     this.lessonId = lessonId
-    this.baseUrl = opts.baseUrl || 'https://coursekit.dev'
+    this.baseUrl = opts.baseUrl || 'https://api.coursekit.dev'
   }
 
   async createPlayer(targetSelector, playerOptions = {}) {
