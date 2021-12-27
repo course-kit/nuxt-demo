@@ -6,7 +6,9 @@
     <div
       class="bg-cover bg-center h-60 p-4"
       :style="{ 'background-image': `url(${thumb})` }"
-    ></div>
+    >
+      <slot name="overlay"></slot>
+    </div>
     <div class="p-4 py-5">
       <h3
         class="
@@ -22,9 +24,7 @@
         {{ title }}
       </h3>
       <p class="text-sm">{{ description }}</p>
-      <button class="text-sm mt-6 px-4 py-2 rounded text-white font-bold text-yellow-600 border-2 border-yellow-600 bg-transparent">
-        Get started
-      </button>
+      <slot name="buttons"></slot>
     </div>
   </nuxt-link>
 </template>

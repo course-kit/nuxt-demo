@@ -18,10 +18,12 @@
     "@nuxtjs/tailwindcss": "^4.2.0",
     "@tailwindcss/aspect-ratio": "^0.3.0",
     "@tailwindcss/typography": "^0.4.1",
+    "@vue-hero-icons/solid": "^1.7.2",
     "core-js": "^3.15.1",
     "nuxt": "^2.15.7",
     "vue": "^2.6.14",
-    "vue-spinner": "^1.0.4"
+    "vue-spinner": "^1.0.4",
+    "vuex": "^3.6.2"
   },
   "devDependencies": {
     "@babel/eslint-parser": "^7.14.7",

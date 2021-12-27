@@ -2,7 +2,7 @@
   <div class="h-full w-full">
     <Navbar />
     <div class="container mx-auto">
-      <div class="px-12 py-12">
+      <div class="px-12 pt-36 pb-12">
         <Nuxt />
       </div>
     </div>
