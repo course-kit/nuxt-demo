@@ -32,7 +32,7 @@
           >
           <a
             v-if="state === 'unauthenticated'"
-            :href="store.state.loginUrl"
+            :href="$store.state.loginUrl"
             class="
               cursor-pointer
               bg-transparent
@@ -92,7 +92,7 @@ export default {
 
       if (status === 401) {
         this.state = 'unauthenticated'
-        this.store.commit('setLoginUrl', loginUrl)
+        this.$store.commit('setLoginUrl', loginUrl)
       }
 
       if (status === 403) {
