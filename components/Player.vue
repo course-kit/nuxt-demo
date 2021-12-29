@@ -7,7 +7,7 @@
         <p class="font-bold text-white text-xl">Network error.</p>
         <p class="text-white text-lg">Please reload to view this video.</p>
       </div>
-      <div v-else>
+      <div v-else class="text-center">
         <p class="font-bold text-white text-lg">
           <span>
             Please enrol in
