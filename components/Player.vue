@@ -3,12 +3,12 @@
     <div v-show="state === 'ready'" id="video" />
     <PlayerLoading v-if="state === 'loading'" />
     <PlayerControls v-else-if="state !== 'ready'" :thumb="lesson.thumb">
-      <div class="font-bold text-white text-lg">
+      <div>
         <div v-if="state === 'error'" class="text-center">
           <p class="font-bold text-white text-xl">Network error.</p>
           <p class="text-white text-lg">Please reload to view this video.</p>
         </div>
-        <div v-else>
+        <div v-else class="text-center">
           <p class="font-bold text-white text-lg">
             Please enrol in
             <a class="underline" :href="course.enrolUrl">{{ course.title }}</a>
