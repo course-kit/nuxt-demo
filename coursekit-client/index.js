@@ -2,6 +2,8 @@
 
 import { PlayerSdk } from '@api.video/player-sdk'
 
+const baseUrl = 'https://api.coursekit.dev'
+
 class VideoLoader {
 
   courseId
@@ -11,7 +13,7 @@ class VideoLoader {
   constructor(courseId, lessonId, opts = {}) {
     this.courseId = courseId
     this.lessonId = lessonId
-    this.baseUrl = opts.baseUrl || 'https://api.coursekit.dev'
+    this.baseUrl = opts.baseUrl || baseUrl
   }
 
   async createPlayer(targetSelector, playerOptions = {}) {
@@ -105,8 +107,8 @@ class UserLoader {
   async createUser () {
     const status = 200
     const loginUrl = 'https://test.com'
-    const user = userAuthenticated
-    // const user = userUnauthenticated
+    // const user = userAuthenticated
+    const user = userUnauthenticated
     await true
     return { status, loginUrl, user }
   }

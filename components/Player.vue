@@ -4,15 +4,16 @@
     <PlayerLoading v-if="state === 'loading'" />
     <PlayerControls v-else-if="state !== 'ready'" :thumb="lesson.thumb">
       <p class="font-bold text-white text-lg">
-        Please enrol in <a class="underline" :href="course.enrolUrl">{{ course.title }}</a> to see this video.
+        Please enrol in
+        <a class="underline" :href="course.enrolUrl">{{ course.title }}</a> to
+        see this video.
       </p>
       <div class="mt-4 flex gap-4">
         <a
           :href="course.enrolUrl"
           class="
             bg-blue-500
-            border-blue-500
-            border-2
+            border-blue-500 border-2
             text-white
             font-bold
             py-2
@@ -24,7 +25,7 @@
         >
         <a
           v-if="state === 'unauthenticated'"
-          :href="loginUrl"
+          :href="store.state.loginUrl"
           class="
             cursor-pointer
             bg-transparent
@@ -60,8 +61,7 @@ export default {
     },
   },
   data: () => ({
-    state: 'loading',
-    loginUrl: null,
+    state: 'loading'
   }),
   async created() {
     if (process.client) {
@@ -77,11 +77,14 @@ export default {
         player.addEventListener('ready', () => {
           this.state = 'ready'
         })
+        player.addEventListener('ended', () => {
+          this.$emit('ended')
+        })
       }
 
       if (status === 401) {
         this.state = 'unauthenticated'
-        this.loginUrl = loginUrl
+        this.store.commit('setLoginUrl', loginUrl)
       }
 
       if (status === 403) {

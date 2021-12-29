@@ -1,8 +1,5 @@
 <template>
-  <nuxt-link
-    class="bg-yellow-100 rounded-lg overflow-hidden"
-    :to="path"
-  >
+  <nuxt-link class="bg-yellow-100 rounded-lg overflow-hidden" :to="path">
     <div
       class="bg-cover bg-center h-60 p-4"
       :style="{ 'background-image': `url(${thumb})` }"

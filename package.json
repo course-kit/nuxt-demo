@@ -8,7 +8,8 @@
     "start": "nuxt start",
     "generate": "nuxt generate",
     "lint:js": "eslint --ext \".js,.vue\" --ignore-path .gitignore .",
-    "lint": "npm run lint:js"
+    "prettier": "prettier -w components layouts pages plugins store",
+    "lint": "npm run prettier && npm run lint:js --fix"
   },
   "dependencies": {
     "@api.video/player-sdk": "^1.2.9",
