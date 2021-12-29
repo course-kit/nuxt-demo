@@ -21,7 +21,7 @@
 export default {
   asyncData({ params, store }) {
     const course = store.getters.getCourse(params.courseId)
-    const lesson = store.getters.getCourse(params.lessonId)
+    const lesson = store.getters.getLesson(params.courseId, params.lessonId)
     return {
       course,
       lesson,

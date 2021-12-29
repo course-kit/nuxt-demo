@@ -29,9 +29,7 @@
               <span v-if="getNextLesson(course.id) === course.lessons[0]">
                 Get started
               </span>
-              <span v-else>
-                Continue course
-              </span>
+              <span v-else> Continue course </span>
             </span>
             <span v-else>Learn more</span>
           </button>

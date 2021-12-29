@@ -3,48 +3,56 @@
     <div v-show="state === 'ready'" id="video" />
     <PlayerLoading v-if="state === 'loading'" />
     <PlayerControls v-else-if="state !== 'ready'" :thumb="lesson.thumb">
-      <p class="font-bold text-white text-lg">
-        Please enrol in
-        <a class="underline" :href="course.enrolUrl">{{ course.title }}</a> to
-        see this video.
-      </p>
-      <div class="mt-4 flex gap-4">
-        <a
-          :href="course.enrolUrl"
-          class="
-            bg-blue-500
-            border-blue-500 border-2
-            text-white
-            font-bold
-            py-2
-            px-4
-            rounded
-            text-sm
-          "
-          >Enrol</a
-        >
-        <a
-          v-if="state === 'unauthenticated'"
-          :href="store.state.loginUrl"
-          class="
-            cursor-pointer
-            bg-transparent
-            border-blue-500 border-2
-            text-white
-            font-bold
-            py-2
-            px-4
-            rounded
-            text-sm
-          "
-          >Log in</a
-        >
+      <div v-if="state === 'error'" class="text-center">
+        <p class="font-bold text-white text-xl">Network error.</p>
+        <p class="text-white text-lg">Please reload to view this video.</p>
+      </div>
+      <div v-else>
+        <p class="font-bold text-white text-lg">
+          <span>
+            Please enrol in
+            <a class="underline" :href="course.enrolUrl">{{ course.title }}</a>
+            to see this video.
+          </span>
+        </p>
+        <div class="mt-4 flex gap-4">
+          <a
+            :href="course.enrolUrl"
+            class="
+              bg-blue-500
+              border-blue-500 border-2
+              text-white
+              font-bold
+              py-2
+              px-4
+              rounded
+              text-sm
+            "
+            >Enrol</a
+          >
+          <a
+            v-if="state === 'unauthenticated'"
+            :href="store.state.loginUrl"
+            class="
+              cursor-pointer
+              bg-transparent
+              border-blue-500 border-2
+              text-white
+              font-bold
+              py-2
+              px-4
+              rounded
+              text-sm
+            "
+            >Log in</a
+          >
+        </div>
       </div>
     </PlayerControls>
   </div>
 </template>
 <script>
-import { VideoLoader } from '../coursekit-client'
+import { VideoLoader } from '@coursekit/client'
 import PlayerControls from './PlayerControls'
 import PlayerLoading from './PlayerLoading'
 
@@ -61,7 +69,7 @@ export default {
     },
   },
   data: () => ({
-    state: 'loading'
+    state: 'loading',
   }),
   async created() {
     if (process.client) {
@@ -89,6 +97,10 @@ export default {
 
       if (status === 403) {
         this.state = 'unauthorized'
+      }
+
+      if (status === 500) {
+        this.state = 'error'
       }
     }
   },
