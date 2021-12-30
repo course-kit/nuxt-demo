@@ -29,7 +29,7 @@
             rounded
             text-sm
           "
-          >Enrol</a
+          >Enroll</a
         >
         <a
           v-if="state === 'unauthenticated'"
