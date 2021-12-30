@@ -6,7 +6,7 @@
       </h3>
       <div class="mt-2 text-sm text-green-700">
         <p>
-          To complete your enrolment, check your email and activate your
+          To complete your enrollment, check your email and activate your
           account.
         </p>
       </div>
@@ -48,7 +48,7 @@
     <div v-else>
       <nuxt-content class="prose prose-sm sm:prose" :document="course" />
       <a
-        :href="course.enrolUrl"
+        :href="course.enrollUrl"
         class="
           inline-block
           mt-6

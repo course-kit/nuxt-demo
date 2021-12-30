@@ -10,15 +10,15 @@
         </div>
         <div v-else class="text-center">
           <p class="font-bold text-white text-lg">
-            Please enrol in
-            <a class="underline" :href="course.enrolUrl">{{ course.title }}</a>
+            Please enroll in
+            <a class="underline" :href="course.enrollUrl">{{ course.title }}</a>
             to see this video.
           </p>
         </div>
       </div>
       <div class="mt-4 flex gap-4">
         <a
-          :href="course.enrolUrl"
+          :href="course.enrollUrl"
           class="
             bg-blue-500
             border-blue-500 border-2
