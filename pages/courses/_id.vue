@@ -20,14 +20,36 @@
     <h1 class="text-4xl mb-8 font-bold text-yellow-900">
       {{ course.title }}
     </h1>
-    <div v-if="course.enrolled" class="flex flex-row">
-      <div>
-        <ProgressRing :percentage="$user.getProgress() * 100" class="mr-8" />
+    <client-only>
+      <div v-if="course.enrolled" class="flex flex-row">
+        <div>
+          <ProgressRing :percentage="$user.getProgress() * 100" class="mr-8" />
+        </div>
+        <div>
+          <nuxt-content class="prose prose-sm sm:prose" :document="course" />
+          <nuxt-link
+            :to="`/courses/${course.id}/lessons/${nextLesson.id}`"
+            class="
+              inline-block
+              mt-6
+              text-lg
+              font-bold
+              rounded
+              py-3
+              px-6
+              bg-yellow-600
+              text-white
+            "
+          >
+            <span v-if="nextLesson === course.lessons[0]">Get started</span>
+            <span v-else>Continue with lesson {{ nextLesson.order }}</span>
+          </nuxt-link>
+        </div>
       </div>
-      <div>
+      <div v-else>
         <nuxt-content class="prose prose-sm sm:prose" :document="course" />
-        <nuxt-link
-          :to="`/courses/${course.id}/lessons/${nextLesson.id}`"
+        <a
+          :href="course.productUrl"
           class="
             inline-block
             mt-6
@@ -39,30 +61,11 @@
             bg-yellow-600
             text-white
           "
+          >Enrol now</a
         >
-          <span v-if="nextLesson === course.lessons[0]">Get started</span>
-          <span v-else>Continue with lesson {{ nextLesson.order }}</span>
-        </nuxt-link>
       </div>
-    </div>
-    <div v-else>
-      <nuxt-content class="prose prose-sm sm:prose" :document="course" />
-      <a
-        :href="course.enrollUrl"
-        class="
-          inline-block
-          mt-6
-          text-lg
-          font-bold
-          rounded
-          py-3
-          px-6
-          bg-yellow-600
-          text-white
-        "
-        >Enrol now</a
-      >
-    </div>
+    </client-only>
+
     <h2 class="mt-12 text-yellow-900 text-2xl font-bold">Lessons</h2>
     <div class="mt-6 grid lg:grid-cols-3 md:grid-cols-2 sm:grid-cols-1 gap-8">
       <Card
@@ -101,18 +104,19 @@ export default {
     ProgressRing,
     CheckCircleIcon,
   },
-  asyncData({ params, store, $user }) {
-    const course = store.getters.getCourse(params.id)
-    const nextLesson = store.getters.getLesson(
+  created() {
+    const courseId = this.$route.params.id
+    const course = this.$store.getters.getCourse(courseId)
+    const nextLesson = this.$store.getters.getLesson(
       course.id,
-      $user.getNextLessonId()
+      this.$user.getNextLessonId(course.id)
     )
-    return {
-      course,
-      nextLesson,
-    }
+    this.course = course
+    this.nextLesson = nextLesson
   },
   data: () => ({
+    course: {},
+    nextLesson: {},
     sale: false,
     registered: false,
   }),

@@ -32,39 +32,41 @@
               sm:flex sm:static sm:inset-auto sm:ml-6 sm:pr-0
             "
           >
-            <a
-              v-if="$user.isAuthenticated()"
-              :href="$user.getAccountUrl()"
-              class="
-                flex
-                justify-between
-                items-center
-                gap-3
-                rounded-md
-                bg-blue-400
-                px-4
-                py-2
-              "
-            >
-              <span class="text-sm text-white font-bold">My Account</span>
-            </a>
-            <a
-              v-else
-              class="
-                cursor-pointer
-                bg-transparent
-                border-blue-500 border-2
-                text-blue-500
-                font-bold
-                py-2
-                px-4
-                rounded
-                text-sm
-              "
-              :href="$store.state.loginUrl"
-            >
-              Log in
-            </a>
+            <client-only>
+              <a
+                v-if="$user.isAuthenticated()"
+                :href="$user.getAccountUrl()"
+                class="
+                  flex
+                  justify-between
+                  items-center
+                  gap-3
+                  rounded-md
+                  bg-blue-400
+                  px-4
+                  py-2
+                "
+              >
+                <span class="text-sm text-white font-bold">My Account</span>
+              </a>
+              <a
+                v-else
+                class="
+                  cursor-pointer
+                  bg-transparent
+                  border-blue-500 border-2
+                  text-blue-500
+                  font-bold
+                  py-2
+                  px-4
+                  rounded
+                  text-sm
+                "
+                :href="$store.state.loginUrl"
+              >
+                Log in
+              </a>
+            </client-only>
           </div>
         </div>
       </div>

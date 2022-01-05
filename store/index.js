@@ -1,3 +1,5 @@
+import Vue from 'vue'
+
 export const state = () => ({
   loginUrl: null,
   courses: [],
@@ -18,19 +20,21 @@ export const actions = {
     const lessons = await this.$content('lessons')
       .sortBy('order', 'asc')
       .fetch()
-    commit(
-      'setCourses',
-      courses.map((course) => {
-        course.enrolled = user.isCourseEnrolled(course.id)
-        course.lessons = lessons
+    const mappedCourses = courses.map((course) => {
+      Vue.set(course, 'enrolled', user.isCourseEnrolled(course.id))
+      Vue.set(
+        course,
+        'lessons',
+        lessons
           .filter((lesson) => lesson.course === course.id)
           .map((lesson) => {
             lesson.complete = user.isLessonComplete(course.id, lesson.id)
             return lesson
           })
-        return course
-      })
-    )
+      )
+      return course
+    })
+    commit('setCourses', mappedCourses)
   },
 }
 
@@ -42,8 +46,7 @@ export const getters = {
     return state.courses.find((course) => course.id === courseId)
   },
   getLesson: (state) => (courseId, lessonId) => {
-    return state.courses
-      .find((course) => course.id === courseId)
-      .lessons.find((lesson) => lesson.id === lessonId)
+    const course = state.courses.find((course) => course.id === courseId)
+    return course.lessons.find((lesson) => lesson.id === lessonId)
   },
 }

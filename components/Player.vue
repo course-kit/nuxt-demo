@@ -52,7 +52,6 @@
   </div>
 </template>
 <script>
-import { VideoLoader } from '@coursekit/client'
 import PlayerControls from './PlayerControls'
 import PlayerLoading from './PlayerLoading'
 
@@ -67,42 +66,19 @@ export default {
       type: Object,
       required: true,
     },
-  },
-  data: () => ({
-    state: 'loading',
-  }),
-  async created() {
-    if (process.client) {
-      const opts = {}
-      if (process.env.NODE_ENV === 'development') {
-        opts.baseUrl = process.env.API_URL
-      }
-      const loader = new VideoLoader(this.course.id, this.lesson.id, opts)
-
-      const { status, loginUrl, player } = await loader.createPlayer('#video')
-
-      if (status === 200) {
-        player.addEventListener('ready', () => {
-          this.state = 'ready'
-        })
-        player.addEventListener('ended', () => {
-          this.$emit('ended')
-        })
-      }
-
-      if (status === 401) {
-        this.state = 'unauthenticated'
-        this.$store.commit('setLoginUrl', loginUrl)
-      }
-
-      if (status === 403) {
-        this.state = 'unauthorized'
-      }
-
-      if (status === 500) {
-        this.state = 'error'
-      }
+    state: {
+      type: String,
+      required: true
     }
   },
+  mounted () {
+    // const player = createPlayer()
+    // player.addEventListener('ready', () => {
+    //   this.$emit('ready')
+    // })
+    // player.addEventListener('ended', () => {
+    //   this.$emit('ended')
+    // })
+  }
 }
 </script>
