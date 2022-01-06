@@ -23,7 +23,7 @@
     <client-only>
       <div v-if="course.enrolled" class="flex flex-row">
         <div>
-          <ProgressRing :percentage="$user.getProgress() * 100" class="mr-8" />
+          <ProgressRing :percentage="$user.getProgress(course.id) * 100" class="mr-8" />
         </div>
         <div>
           <nuxt-content class="prose prose-sm sm:prose" :document="course" />
@@ -77,19 +77,21 @@
         :path="`/courses/${course.id}/lessons/${lesson.id}`"
       >
         <template #overlay>
-          <div class="flex justify-end">
-            <div
-              v-if="lesson.complete"
-              class="flex gap-1 items-center py-1 px-2 rounded-md bg-yellow-100"
-            >
+          <client-only>
+            <div class="flex justify-end">
+              <div
+                v-if="lesson.complete"
+                class="flex gap-1 items-center py-1 px-2 rounded-md bg-yellow-100"
+              >
               <span>
                 <CheckCircleIcon class="h-6 w-6 text-yellow-700" />
               </span>
-              <span class="text-sm font-bold uppercase text-yellow-700">
+                <span class="text-sm font-bold uppercase text-yellow-700">
                 Watched
               </span>
+              </div>
             </div>
-          </div>
+          </client-only>
         </template>
       </Card>
     </div>

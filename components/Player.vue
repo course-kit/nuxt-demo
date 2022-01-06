@@ -1,6 +1,6 @@
 <template>
   <div class="aspect-w-16 aspect-h-9">
-    <div v-show="state === 'ready'" id="video" />
+    <slot v-show="state === 'ready'" />
     <PlayerLoading v-if="state === 'loading'" />
     <PlayerControls v-else-if="state !== 'ready'" :thumb="lesson.thumb">
       <div>
@@ -71,14 +71,5 @@ export default {
       required: true
     }
   },
-  mounted () {
-    // const player = createPlayer()
-    // player.addEventListener('ready', () => {
-    //   this.$emit('ready')
-    // })
-    // player.addEventListener('ended', () => {
-    //   this.$emit('ended')
-    // })
-  }
 }
 </script>

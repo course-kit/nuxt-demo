@@ -1,22 +1,35 @@
 <template>
-  <div class="max-w-video">
-<!--    <Player-->
-<!--      v-if="lesson"-->
-<!--      :course="course"-->
-<!--      :lesson="lesson"-->
-<!--      :state="state"-->
-<!--      @ready="state = 'ready'"-->
-<!--      @ended="completeAndContinue"-->
-<!--    />-->
-    <div v-if="$user.isAuthenticated()" class="pt-8">
-      <button
-        class="bg-yellow-600 rounded py-2 px-4 text-white font-bold"
-        @click="completeAndContinue"
-      >
-        Complete and continue
-      </button>
-    </div>
-    <nuxt-content :document="content" class="mt-8" />
+  <div>
+    <p class="text-yellow-900 mb-8 text-lg">
+      <nuxt-link class="underline" :to="`/courses/${course.id}`">{{ course.title }}</nuxt-link><span class="px-3">></span><span class="font-bold">{{ lesson.title }}</span>
+    </p>
+    <client-only>
+      <div class="max-w-video">
+        <Player
+          v-if="video"
+          :state="state"
+          :course="course"
+          :lesson="lesson"
+        >
+          <div id="video"></div>
+        </Player>
+        <Content
+          v-if="content"
+          :content="content"
+          :state="state"
+          :course="course"
+          :lesson="lesson"
+        />
+        <div v-if="$user.isAuthenticated()" class="pt-8">
+          <button
+            class="bg-yellow-600 rounded py-2 px-4 text-white font-bold"
+            @click="completeAndContinue"
+          >
+            Complete and continue
+          </button>
+        </div>
+      </div>
+    </client-only>
   </div>
 </template>
 <script>
@@ -27,6 +40,7 @@ export default {
     course: {},
     lesson: {},
     state: 'loading',
+    video: false,
     content: null
   }),
   created() {
@@ -41,16 +55,26 @@ export default {
     }
     const loader = new LessonLoader(this.course.id, this.lesson.id, opts)
 
-    const { status, lesson, player } = await loader.load('#video')
-
-    this.content = lesson.content
+    const { status, loginUrl, player } = await loader.loadPlayer('#video')
+    const { content } = await loader.loadContent()
 
     if (status === 200) {
-      this.state = 'success'
+      if (player) {
+        player.addEventListener('ready', () => {
+          this.state = 'ready'
+        })
+        player.addEventListener('ended', () => {
+          this.completeAndContinue()
+        })
+      }
+      if (content) {
+        this.content = content
+      }
     }
 
     if (status === 401) {
       this.state = 'unauthenticated'
+      this.$store.commit('setLoginUrl', loginUrl)
     }
 
     if (status === 403) {
@@ -63,11 +87,15 @@ export default {
   },
   methods: {
     async completeAndContinue() {
-      const nextLesson = await this.$user.markComplete(
+      await this.$user.markComplete(
         this.course.id,
         this.lesson.id
       )
-      this.$router.push(`/courses/${this.course.id}/lessons/${nextLesson.id}`)
+      const nextLesson = this.$store.getters.getLesson(
+        this.course.id,
+        this.$user.getNextLessonId(this.course.id)
+      )
+      window.location.href = `/courses/${this.course.id}/lessons/${nextLesson.id}`
     },
   },
 }
