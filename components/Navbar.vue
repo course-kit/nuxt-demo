@@ -6,7 +6,7 @@
           <div class="flex space-x-8">
             <nuxt-link to="/" class="flex items-center">
               <!--<img src="logo.png" alt="Logo" class="h-8 w-8 mr-2 bg-gray-50" />-->
-              <span class="font-bold text-gray-500">CourseKit Demo</span>
+              <span class="font-bold text-gray-500 py-2">CourseKit Demo</span>
             </nuxt-link>
             <div class="hidden md:flex space-x-7 text-yellow-600 font-bold">
               <nuxt-link
@@ -67,10 +67,7 @@ export default {
       return process.env.schoolId
     },
     links() {
-      return [
-        { text: 'Courses', to: '/' },
-        { text: 'About', to: '/about' },
-      ].map((link) => {
+      return [].map((link) => {
         link.active = this.$route.path === link.to
         return link
       })
