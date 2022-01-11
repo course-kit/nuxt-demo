@@ -14,8 +14,7 @@
                 :key="link.to"
                 :to="link.to"
                 class="py-2"
-                :class="link.active ? 'text-yellow-900' : ''"
-              >
+                :class="link.active ? 'text-yellow-900' : ''">
                 {{ link.text }}
               </nuxt-link>
             </div>
@@ -30,25 +29,14 @@
               items-center
               pr-2
               sm:flex sm:static sm:inset-auto sm:ml-6 sm:pr-0
-            "
-          >
+            ">
             <client-only>
-              <a
+              <button
                 v-if="$user.isAuthenticated()"
-                :href="$user.getAccountUrl()"
-                class="
-                  flex
-                  justify-between
-                  items-center
-                  gap-3
-                  rounded-md
-                  bg-blue-400
-                  px-4
-                  py-2
-                "
-              >
-                <span class="text-sm text-white font-bold">My Account</span>
-              </a>
+                class="flex justify-between items-center gap-3 rounded-md bg-blue-400 px-4 py-2"
+                @click="$user.logout({ schoolId })">
+                <span class="text-sm text-white font-bold">Log out</span>
+              </button>
               <a
                 v-else
                 class="
@@ -62,8 +50,7 @@
                   rounded
                   text-sm
                 "
-                :href="$store.state.loginUrl"
-              >
+                @click="$user.login({ schoolId })">
                 Log in
               </a>
             </client-only>
@@ -76,6 +63,9 @@
 <script>
 export default {
   computed: {
+    schoolId() {
+      return process.env.schoolId
+    },
     links() {
       return [
         { text: 'Courses', to: '/' },

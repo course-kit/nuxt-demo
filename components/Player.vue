@@ -28,12 +28,11 @@
             px-4
             rounded
             text-sm
-          "
-          >Enroll</a
-        >
-        <a
+          ">
+          Enroll
+        </a>
+        <button
           v-if="state === 'unauthenticated'"
-          :href="$store.state.loginUrl"
           class="
             cursor-pointer
             bg-transparent
@@ -45,8 +44,9 @@
             rounded
             text-sm
           "
-          >Log in</a
-        >
+          @click="$user.login({ courseId: course.id })">
+          Log in
+        </button>
       </div>
     </PlayerControls>
   </div>
@@ -68,8 +68,8 @@ export default {
     },
     state: {
       type: String,
-      required: true
-    }
+      required: true,
+    },
   },
 }
 </script>

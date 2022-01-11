@@ -1,8 +1,7 @@
 <template>
   <div
     class="aspect-w-16 aspect-h-9 bg-cover bg-center thumb"
-    :style="{ 'background-image': `url(${thumb})` }"
-  >
+    :style="{ 'background-image': `url(${thumb})` }">
     <div class="absolute w-full h-full z-10 overlay">
       <div class="controls z-20 flex flex-col h-full justify-center">
         <div class="controls-content flex items-center flex-col z-10">

@@ -8,8 +8,7 @@
         :title="course.title"
         :description="course.description"
         :thumb="course.thumb"
-        :path="`/courses/${course.id}`"
-      >
+        :path="`/courses/${course.id}`">
         <template #buttons>
           <client-only>
             <button
@@ -24,13 +23,10 @@
                 text-yellow-600
                 border-2 border-yellow-600
                 bg-transparent
-              "
-            >
+              ">
               <span v-if="course.enrolled">
-                <span v-if="getNextLesson(course.id) === course.lessons[0]">
-                  Get started
-                </span>
-                <span v-else> Continue course </span>
+                <span v-if="getNextLesson(course.id) === course.lessons[0]">Get started</span>
+                <span v-else>Continue course</span>
               </span>
               <span v-else>Learn more</span>
             </button>
@@ -41,22 +37,11 @@
             <client-only>
               <div
                 v-if="course.enrolled"
-                class="
-                  flex
-                  gap-1
-                  items-center
-                  py-1
-                  px-2
-                  rounded-md
-                  bg-yellow-100
-                "
-              >
+                class="flex gap-1 items-center py-1 px-2 rounded-md bg-yellow-100">
                 <span>
                   <CheckCircleIcon class="h-6 w-6 text-yellow-700" />
                 </span>
-                <span class="text-sm font-bold uppercase text-yellow-700">
-                  Enrolled
-                </span>
+                <span class="text-sm font-bold uppercase text-yellow-700">Enrolled</span>
               </div>
             </client-only>
           </div>
@@ -71,18 +56,15 @@ import { CheckCircleIcon } from '@vue-hero-icons/solid'
 import Card from '../components/Card'
 export default {
   components: { Card, CheckCircleIcon },
-  created() {
-    this.courses = this.$store.getters.getCourses()
-  },
   data: () => ({
     courses: [],
   }),
+  created() {
+    this.courses = this.$store.getters.getCourses()
+  },
   methods: {
     getNextLesson(courseId) {
-      return this.$store.getters.getLesson(
-        courseId,
-        this.$user.getNextLessonId(courseId)
-      )
+      return this.$store.getters.getLesson(courseId, this.$user.getNextLessonId(courseId))
     },
   },
 }

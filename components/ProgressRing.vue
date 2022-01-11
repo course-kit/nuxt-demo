@@ -1,15 +1,9 @@
 <template>
   <div
     class="relative flex justify-center content-center"
-    :style="{ height: `${size * 2 + 10}px`, width: `${size * 2 + 10}px` }"
-  >
+    :style="{ height: `${size * 2 + 10}px`, width: `${size * 2 + 10}px` }">
     <svg>
-      <circle
-        :cx="size"
-        :cy="size"
-        :r="size"
-        class="stroke-current text-gray-600"
-      ></circle>
+      <circle :cx="size" :cy="size" :r="size" class="stroke-current text-gray-600"></circle>
       <circle
         :cx="size"
         :cy="size"
@@ -17,12 +11,12 @@
         class="stroke-current text-yellow-400"
         :style="{
           'stroke-dashoffset': `calc(410 - (410 * ${percentage}) / 100)`,
-        }"
-      ></circle>
+        }"></circle>
     </svg>
     <div class="absolute center flex flex-col justify-center content-center">
       <h2 class="text-yellow-900 text-3xl font-bold text-center">
-        {{ percentage }}<span class="text-xl">%</span>
+        {{ percentage }}
+        <span class="text-xl">%</span>
       </h2>
       <span class="text-yellow-900 text-sm">progress</span>
     </div>

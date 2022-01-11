@@ -1,7 +1,6 @@
 import Vue from 'vue'
 
 export const state = () => ({
-  loginUrl: null,
   courses: [],
 })
 
@@ -9,17 +8,12 @@ export const mutations = {
   setCourses(state, courses) {
     state.courses = courses
   },
-  setLoginUrl(state, loginUrl) {
-    state.loginUrl = loginUrl
-  },
 }
 
 export const actions = {
   async init({ state, commit }, user) {
     const courses = await this.$content('courses').fetch()
-    const lessons = await this.$content('lessons')
-      .sortBy('order', 'asc')
-      .fetch()
+    const lessons = await this.$content('lessons').sortBy('order', 'asc').fetch()
     const mappedCourses = courses.map((course) => {
       Vue.set(course, 'enrolled', user.isCourseEnrolled(course.id))
       Vue.set(

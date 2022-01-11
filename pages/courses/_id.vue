@@ -1,14 +1,9 @@
 <template>
   <div>
     <Alert v-if="sale">
-      <h3 class="font-medium text-green-800">
-        Purchase successful! Now, one more thing...
-      </h3>
+      <h3 class="font-medium text-green-800">Purchase successful! Now, one more thing...</h3>
       <div class="mt-2 text-sm text-green-700">
-        <p>
-          To complete your enrollment, check your email and activate your
-          account.
-        </p>
+        <p>To complete your enrollment, check your email and activate your account.</p>
       </div>
     </Alert>
     <Alert v-if="registered">
@@ -29,18 +24,7 @@
           <nuxt-content class="prose prose-sm sm:prose" :document="course" />
           <nuxt-link
             :to="`/courses/${course.id}/lessons/${nextLesson.id}`"
-            class="
-              inline-block
-              mt-6
-              text-lg
-              font-bold
-              rounded
-              py-3
-              px-6
-              bg-yellow-600
-              text-white
-            "
-          >
+            class="inline-block mt-6 text-lg font-bold rounded py-3 px-6 bg-yellow-600 text-white">
             <span v-if="nextLesson === course.lessons[0]">Get started</span>
             <span v-else>Continue with lesson {{ nextLesson.order }}</span>
           </nuxt-link>
@@ -50,19 +34,9 @@
         <nuxt-content class="prose prose-sm sm:prose" :document="course" />
         <a
           :href="course.productUrl"
-          class="
-            inline-block
-            mt-6
-            text-lg
-            font-bold
-            rounded
-            py-3
-            px-6
-            bg-yellow-600
-            text-white
-          "
-          >Enrol now</a
-        >
+          class="inline-block mt-6 text-lg font-bold rounded py-3 px-6 bg-yellow-600 text-white">
+          Enroll now
+        </a>
       </div>
     </client-only>
 
@@ -74,21 +48,17 @@
         :title="lesson.title"
         :description="lesson.description"
         :thumb="lesson.thumb"
-        :path="`/courses/${course.id}/lessons/${lesson.id}`"
-      >
+        :path="`/courses/${course.id}/lessons/${lesson.id}`">
         <template #overlay>
           <client-only>
             <div class="flex justify-end">
               <div
                 v-if="lesson.complete"
-                class="flex gap-1 items-center py-1 px-2 rounded-md bg-yellow-100"
-              >
-              <span>
-                <CheckCircleIcon class="h-6 w-6 text-yellow-700" />
-              </span>
-                <span class="text-sm font-bold uppercase text-yellow-700">
-                Watched
-              </span>
+                class="flex gap-1 items-center py-1 px-2 rounded-md bg-yellow-100">
+                <span>
+                  <CheckCircleIcon class="h-6 w-6 text-yellow-700" />
+                </span>
+                <span class="text-sm font-bold uppercase text-yellow-700">Complete</span>
               </div>
             </div>
           </client-only>
@@ -106,6 +76,12 @@ export default {
     ProgressRing,
     CheckCircleIcon,
   },
+  data: () => ({
+    course: {},
+    nextLesson: {},
+    sale: false,
+    registered: false,
+  }),
   created() {
     const courseId = this.$route.params.id
     const course = this.$store.getters.getCourse(courseId)
@@ -116,12 +92,6 @@ export default {
     this.course = course
     this.nextLesson = nextLesson
   },
-  data: () => ({
-    course: {},
-    nextLesson: {},
-    sale: false,
-    registered: false,
-  }),
   mounted() {
     if (this.$route.query.sale) {
       this.sale = true

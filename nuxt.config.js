@@ -24,6 +24,7 @@ export default {
   },
 
   env: {
+    schoolId: 'scPtbvTBpl',
     NODE_ENV: process.env.NODE_ENV || 'development',
     API_URL: process.env.API_URL || 'http://api.coursekit.test:8080'
   },

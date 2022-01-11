@@ -6,8 +6,7 @@ export default async function ({ store, app }, inject) {
     opts.baseUrl = process.env.API_URL
   }
   const userLoader = new UserLoader(opts)
-  const { loginUrl, user } = await userLoader.loadUser()
-  store.commit('setLoginUrl', loginUrl)
+  const { user } = await userLoader.loadUser()
   await store.dispatch('init', user)
   inject('user', user)
 }
