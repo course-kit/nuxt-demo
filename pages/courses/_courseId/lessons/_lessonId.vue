@@ -25,7 +25,7 @@
   </div>
 </template>
 <script>
-import { LessonLoader } from '@coursekit/client'
+import { Lesson } from '@coursekit/client'
 
 export default {
   data: () => ({
@@ -45,10 +45,11 @@ export default {
     if (process.env.NODE_ENV === 'development') {
       opts.baseUrl = process.env.API_URL
     }
-    const loader = new LessonLoader(this.course.id, this.lesson.id, opts)
 
-    const { status, player } = await loader.loadPlayer('#video')
-    const { content } = await loader.loadContent()
+    const lesson = new Lesson(this.course.id, this.lesson.id, opts)
+
+    const { status, player } = await lesson.loadPlayer('#video')
+    const { content } = await lesson.loadContent()
 
     if (status === 200) {
       if (player) {
