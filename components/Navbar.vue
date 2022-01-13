@@ -33,23 +33,13 @@
             <client-only>
               <button
                 v-if="$user.isAuthenticated()"
-                class="flex justify-between items-center gap-3 rounded-md bg-blue-400 px-4 py-2"
+                class="text-white bg-blue-400 btn-sm"
                 @click="$user.logout({ schoolId })">
-                <span class="text-sm text-white font-bold">Log out</span>
+                Log out
               </button>
               <a
                 v-else
-                class="
-                  cursor-pointer
-                  bg-transparent
-                  border-blue-500 border-2
-                  text-blue-500
-                  font-bold
-                  py-2
-                  px-4
-                  rounded
-                  text-sm
-                "
+                class="bg-transparent border-blue-500 border-2 text-blue-500 btn-sm"
                 @click="$user.login({ schoolId })">
                 Log in
               </a>

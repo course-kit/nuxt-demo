@@ -53,8 +53,6 @@ export default {
   modules: [
     // https://go.nuxtjs.dev/axios
     '@nuxtjs/axios',
-    // https://go.nuxtjs.dev/content
-    '@nuxt/content',
   ],
 
   // Axios module configuration: https://go.nuxtjs.dev/config-axios
@@ -68,5 +66,9 @@ export default {
     extend(config, { isDev }) {
 
     }
+  },
+
+  tailwindcss: {
+    cssPath: '~/assets/css/tailwind.css',
   }
 }

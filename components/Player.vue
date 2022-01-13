@@ -17,33 +17,12 @@
         </div>
       </div>
       <div class="mt-4 flex gap-4">
-        <a
-          :href="course.enrollUrl"
-          class="
-            bg-blue-500
-            border-blue-500 border-2
-            text-white
-            font-bold
-            py-2
-            px-4
-            rounded
-            text-sm
-          ">
+        <a :href="course.enrollUrl" class="btn-sm bg-blue-500 border-blue-500 border-2 text-white">
           Enroll
         </a>
         <button
           v-if="state === 'unauthenticated'"
-          class="
-            cursor-pointer
-            bg-transparent
-            border-blue-500 border-2
-            text-white
-            font-bold
-            py-2
-            px-4
-            rounded
-            text-sm
-          "
+          class="btn-sm bg-transparent border-blue-500 border-2 text-white"
           @click="$user.login({ courseId: course.id })">
           Log in
         </button>

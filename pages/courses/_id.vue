@@ -32,9 +32,7 @@
       </div>
       <div v-else>
         <nuxt-content class="prose prose-sm sm:prose" :document="course" />
-        <a
-          :href="course.productUrl"
-          class="inline-block mt-6 text-lg font-bold rounded py-3 px-6 bg-yellow-600 text-white">
+        <a :href="course.productUrl" class="inline-block mt-6 btn-lg bg-yellow-600 text-white">
           Enroll now
         </a>
       </div>

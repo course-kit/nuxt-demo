@@ -11,19 +11,7 @@
         :path="`/courses/${course.id}`">
         <template #buttons>
           <client-only>
-            <button
-              class="
-                text-sm
-                mt-6
-                px-4
-                py-2
-                rounded
-                text-white
-                font-bold
-                text-yellow-600
-                border-2 border-yellow-600
-                bg-transparent
-              ">
+            <button class="btn-sm mt-6 text-yellow-600 border-2 border-yellow-600 bg-transparent">
               <span v-if="course.enrolled">
                 <span v-if="getNextLesson(course.id) === course.lessons[0]">Get started</span>
                 <span v-else>Continue course</span>

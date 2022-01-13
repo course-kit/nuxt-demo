@@ -1,4 +1,5 @@
 import Vue from 'vue'
+import { courses } from '../coursekit.config.json'
 
 export const state = () => ({
   courses: [],
@@ -11,24 +12,18 @@ export const mutations = {
 }
 
 export const actions = {
-  async init({ state, commit }, user) {
-    const courses = await this.$content('courses').fetch()
-    const lessons = await this.$content('lessons').sortBy('order', 'asc').fetch()
-    const mappedCourses = courses.map((course) => {
-      Vue.set(course, 'enrolled', user.isCourseEnrolled(course.id))
-      Vue.set(
-        course,
-        'lessons',
-        lessons
-          .filter((lesson) => lesson.course === course.id)
-          .map((lesson) => {
-            lesson.complete = user.isLessonComplete(course.id, lesson.id)
-            return lesson
-          })
-      )
-      return course
-    })
-    commit('setCourses', mappedCourses)
+  init({ state, commit }, user) {
+    commit(
+      'setCourses',
+      courses.map((course) => {
+        Vue.set(course, 'enrolled', user.isCourseEnrolled(course.id))
+        course.lessons = course.lessons.map((lesson) => {
+          Vue.set(lesson, 'complete', user.isLessonComplete(course.id, lesson.id))
+          return lesson
+        })
+        return course
+      })
+    )
   },
 }
 
