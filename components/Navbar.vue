@@ -1,7 +1,7 @@
 <template>
   <nav class="border-b-2 border-yellow-600 fixed z-50 w-full bg-yellow-50">
     <div class="container mx-auto">
-      <div class="px-12">
+      <div class="px-6 sm:px-12">
         <div class="flex justify-between py-4">
           <div class="flex space-x-8">
             <nuxt-link to="/" class="flex items-center">
@@ -19,17 +19,7 @@
               </nuxt-link>
             </div>
           </div>
-          <div
-            class="
-              hidden
-              absolute
-              inset-y-0
-              right-0
-              flex
-              items-center
-              pr-2
-              sm:flex sm:static sm:inset-auto sm:ml-6 sm:pr-0
-            ">
+          <div>
             <client-only>
               <button
                 v-if="$user.isAuthenticated()"

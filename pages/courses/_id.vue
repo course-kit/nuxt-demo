@@ -16,29 +16,27 @@
       {{ course.title }}
     </h1>
     <client-only>
-      <div v-if="course.enrolled" class="flex flex-row">
+      <div v-if="course.enrolled" class="flex flex-row flex-wrap items-center">
         <div>
-          <ProgressRing :percentage="$user.getProgress(course.id) * 100" class="mr-8" />
+          <ProgressRing :percentage="$user.getProgress(course.id) * 100" class="mr-8 mb-6" />
         </div>
         <div>
-          <nuxt-content class="prose prose-sm sm:prose" :document="course" />
           <nuxt-link
             :to="`/courses/${course.id}/lessons/${nextLesson.id}`"
-            class="inline-block mt-6 text-lg font-bold rounded py-3 px-6 bg-yellow-600 text-white">
+            class="inline-block bg-yellow-600 text-white btn-lg mb-6">
             <span v-if="nextLesson === course.lessons[0]">Get started</span>
-            <span v-else>Continue with lesson {{ nextLesson.order }}</span>
+            <span v-else>Continue with lesson {{ course.lessons.findIndex(l => l === nextLesson) + 1 }}</span>
           </nuxt-link>
         </div>
       </div>
       <div v-else>
-        <nuxt-content class="prose prose-sm sm:prose" :document="course" />
-        <a :href="course.productUrl" class="inline-block mt-6 btn-lg bg-yellow-600 text-white">
+        <a :href="course.productUrl" class="inline-block my-6 btn-lg bg-yellow-600 text-white">
           Enroll now
         </a>
       </div>
     </client-only>
 
-    <h2 class="mt-12 text-yellow-900 text-2xl font-bold">Lessons</h2>
+    <h2 class="mt-6 text-yellow-900 text-2xl font-bold">Lessons</h2>
     <div class="mt-6 grid lg:grid-cols-3 md:grid-cols-2 sm:grid-cols-1 gap-8">
       <Card
         v-for="lesson in course.lessons"

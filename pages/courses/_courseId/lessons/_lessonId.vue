@@ -13,7 +13,7 @@
           <div id="video"></div>
         </Player>
         <Content :content="content" :state="state" :course="course" :lesson="lesson" />
-        <div v-if="$user.isAuthenticated()" class="pt-8">
+        <div v-if="$user.isCourseEnrolled(course.id)" class="pt-8">
           <button
             class="bg-yellow-600 rounded py-2 px-4 text-white font-bold"
             @click="completeAndContinue">
