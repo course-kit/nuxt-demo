@@ -1,9 +1,7 @@
 <template>
   <div>
     <div v-if="state === 'loading'">Loading content...</div>
-    <template v-else-if="state === 'ready'" lang="md">
-      {{ content }}
-    </template>
+    <div v-else-if="state === 'ready'" v-html="content" />
     <div v-else-if="state === 'unauthorized'">
       You'll need to enroll in this course to see this lesson.
     </div>

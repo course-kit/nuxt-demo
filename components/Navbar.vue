@@ -19,20 +19,22 @@
               </nuxt-link>
             </div>
           </div>
-          <div>
-            <button
-              v-if="$user.isAuthenticated()"
-              class="text-white bg-blue-400 btn-sm"
-              @click="$user.logoutRedirect()">
-              Log out
-            </button>
-            <a
-              v-else
-              class="bg-transparent border-blue-500 border-2 text-blue-500 btn-sm"
-              @click="$user.loginRedirect()">
-              Log in
-            </a>
-          </div>
+          <client-only>
+            <div>
+              <button
+                v-if="$user.isAuthenticated()"
+                class="text-white bg-blue-400 btn-sm"
+                @click="$user.logoutRedirect()">
+                Log out
+              </button>
+              <a
+                v-else
+                class="bg-transparent border-blue-500 border-2 text-blue-500 btn-sm"
+                @click="$user.loginRedirect()">
+                Log in
+              </a>
+            </div>
+          </client-only>
         </div>
       </div>
     </div>

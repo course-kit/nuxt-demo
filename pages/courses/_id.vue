@@ -15,26 +15,26 @@
     <h1 class="text-4xl mb-8 font-bold text-yellow-900">
       {{ course.title }}
     </h1>
-    <client-only>
-      <div v-if="course.enrolled" class="flex flex-row flex-wrap items-center">
-        <div>
-          <ProgressRing :percentage="$user.getProgress(course.id) * 100" class="mr-8 mb-6" />
-        </div>
-        <div>
-          <nuxt-link
-            :to="`/courses/${course.id}/lessons/${nextLesson.id}`"
-            class="inline-block bg-yellow-600 text-white btn-lg mb-6">
-            <span v-if="nextLesson === course.lessons[0]">Get started</span>
-            <span v-else>Continue with lesson {{ course.lessons.findIndex(l => l === nextLesson) + 1 }}</span>
-          </nuxt-link>
-        </div>
+
+    <div v-if="course.enrolled" class="flex flex-row flex-wrap items-center">
+      <div>
+        <ProgressRing :percentage="course.progress * 100" class="mr-8 mb-6" />
       </div>
-      <div v-else>
-        <a :href="course.productUrl" class="inline-block my-6 btn-lg bg-yellow-600 text-white">
-          Enroll now
-        </a>
+      <div>
+        <nuxt-link
+          :to="`/courses/${course.id}/lessons/${nextLesson.id}`"
+          class="inline-block bg-yellow-600 text-white btn-lg mb-6">
+          <span v-if="nextLesson.id === course.lessons[0].id">Get started</span>
+          <span v-else>Continue with lesson {{ course.lessons.findIndex(l => l.id === nextLesson.id) + 1 }}</span>
+        </nuxt-link>
       </div>
-    </client-only>
+    </div>
+    <div v-else>
+      <a :href="course.productUrl" class="inline-block my-6 btn-lg bg-yellow-600 text-white">
+        Enroll now
+      </a>
+    </div>
+
 
     <h2 class="mt-6 text-yellow-900 text-2xl font-bold">Lessons</h2>
     <div v-if="course" class="mt-6 grid lg:grid-cols-3 md:grid-cols-2 sm:grid-cols-1 gap-8">
@@ -46,18 +46,16 @@
         :thumb="lesson.thumb"
         :path="`/courses/${course.id}/lessons/${lesson.id}`">
         <template #overlay>
-          <client-only>
-            <div class="flex justify-end">
-              <div
-                v-if="lesson.complete"
-                class="flex gap-1 items-center py-1 px-2 rounded-md bg-yellow-100">
-                <span>
-                  <CheckCircleIcon class="h-6 w-6 text-yellow-700" />
-                </span>
-                <span class="text-sm font-bold uppercase text-yellow-700">Complete</span>
-              </div>
+          <div class="flex justify-end">
+            <div
+              v-if="lesson.complete"
+              class="flex gap-1 items-center py-1 px-2 rounded-md bg-yellow-100">
+              <span>
+                <CheckCircleIcon class="h-6 w-6 text-yellow-700" />
+              </span>
+              <span class="text-sm font-bold uppercase text-yellow-700">Complete</span>
             </div>
-          </client-only>
+          </div>
         </template>
       </Card>
     </div>
