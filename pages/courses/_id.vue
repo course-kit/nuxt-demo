@@ -37,7 +37,7 @@
     </client-only>
 
     <h2 class="mt-6 text-yellow-900 text-2xl font-bold">Lessons</h2>
-    <div class="mt-6 grid lg:grid-cols-3 md:grid-cols-2 sm:grid-cols-1 gap-8">
+    <div v-if="course" class="mt-6 grid lg:grid-cols-3 md:grid-cols-2 sm:grid-cols-1 gap-8">
       <Card
         v-for="lesson in course.lessons"
         :key="lesson.id"
@@ -72,21 +72,37 @@ export default {
     ProgressRing,
     CheckCircleIcon,
   },
+  async asyncData({ app, params, error }) {
+    const { id } = params
+    const { $ck } = app
+    const course = await $ck.loadCourse(id)
+    if (course.status === 404) {
+      return error({ statusCode: 404, message: 'Course not found' })
+    }
+    let lesson
+    if (course.course.nextLessonId) {
+      lesson = await $ck.loadLesson(id, course.course.nextLessonId)
+    }
+    return { course: course.course, nextLesson: lesson ? lesson.lesson : null }
+  },
   data: () => ({
     course: {},
     nextLesson: {},
     sale: false,
     registered: false,
   }),
-  created() {
+  async created() {
     const courseId = this.$route.params.id
-    const course = this.$store.getters.getCourse(courseId)
-    const nextLesson = this.$store.getters.getLesson(
-      course.id,
-      this.$user.getNextLessonId(course.id)
-    )
-    this.course = course
-    this.nextLesson = nextLesson
+    const course = await this.$ck.loadCourse(courseId)
+    if (course.status === 404) {
+      return this.$nuxt.error({ statusCode: 404, message: 'Course not found' })
+    }
+    let lesson
+    if (course.course.nextLessonId) {
+      lesson = await this.$ck.loadLesson(courseId, course.course.nextLessonId)
+    }
+    this.course = course.course
+    this.nextLesson = lesson ? lesson.lesson : null
   },
   mounted() {
     if (this.$route.query.sale) {

@@ -20,20 +20,18 @@
             </div>
           </div>
           <div>
-            <client-only>
-              <button
-                v-if="$user.isAuthenticated()"
-                class="text-white bg-blue-400 btn-sm"
-                @click="$user.logout({ schoolId })">
-                Log out
-              </button>
-              <a
-                v-else
-                class="bg-transparent border-blue-500 border-2 text-blue-500 btn-sm"
-                @click="$user.login({ schoolId })">
-                Log in
-              </a>
-            </client-only>
+            <button
+              v-if="$user.isAuthenticated()"
+              class="text-white bg-blue-400 btn-sm"
+              @click="$user.logoutRedirect()">
+              Log out
+            </button>
+            <a
+              v-else
+              class="bg-transparent border-blue-500 border-2 text-blue-500 btn-sm"
+              @click="$user.loginRedirect()">
+              Log in
+            </a>
           </div>
         </div>
       </div>
@@ -43,9 +41,6 @@
 <script>
 export default {
   computed: {
-    schoolId() {
-      return process.env.schoolId
-    },
     links() {
       return [].map((link) => {
         link.active = this.$route.path === link.to

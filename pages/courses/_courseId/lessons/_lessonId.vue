@@ -7,85 +7,66 @@
       <span class="px-3">></span>
       <span class="font-bold">{{ lesson.title }}</span>
     </p>
-    <client-only>
-      <div class="max-w-video">
-        <Player v-if="video" :state="state" :course="course" :lesson="lesson">
-          <div id="video"></div>
-        </Player>
-        <Content :content="content" :state="state" :course="course" :lesson="lesson" />
-        <div v-if="$user.isCourseEnrolled(course.id)" class="pt-8">
-          <button
-            class="bg-yellow-600 rounded py-2 px-4 text-white font-bold"
-            @click="completeAndContinue">
-            Complete and continue
-          </button>
-        </div>
+    <div>
+      <Content :content="lesson.html" :state="state" :course="course" :lesson="lesson" />
+      <div v-if="course.enrolled" class="pt-8">
+        <button
+          class="bg-yellow-600 rounded py-2 px-4 text-white font-bold"
+          @click="completeAndContinue">
+          Complete and continue
+        </button>
       </div>
-    </client-only>
+    </div>
   </div>
 </template>
 <script>
-import { Lesson } from '@coursekit/client'
-
 export default {
+  async asyncData({ app, params, error }) {
+    const { courseId, lessonId } = params
+    const { $ck } = app
+    const course = await $ck.loadCourse(courseId)
+    const lesson = await $ck.loadLesson(courseId, lessonId)
+    if (course.status === 404 || lesson.status === 404) {
+      return error({ statusCode: 404, message: 'Lesson not found' })
+    }
+    return { course: course.course, lesson: lesson.lesson }
+  },
   data: () => ({
     course: {},
     lesson: {},
     state: 'loading',
-    video: false,
     content: null,
   }),
-  created() {
+  async created() {
     const { courseId, lessonId } = this.$route.params
-    this.course = this.$store.getters.getCourse(courseId)
-    this.lesson = this.$store.getters.getLesson(courseId, lessonId)
-  },
-  async mounted() {
-    const opts = {}
-    if (process.env.NODE_ENV === 'development') {
-      opts.baseUrl = process.env.API_URL
-    }
-
-    const lesson = new Lesson(this.course.id, this.lesson.id, opts)
-
-    const { status, player } = await lesson.loadPlayer('#video')
-    const { content } = await lesson.loadContent()
-
-    if (status === 200) {
-      if (player) {
-        player.addEventListener('ready', () => {
-          this.state = 'ready'
-        })
-        player.addEventListener('ended', () => {
-          this.completeAndContinue()
-        })
-      }
-      if (content) {
-        this.state = 'ready'
-        this.content = content
-      }
-    }
-
-    if (status === 401) {
-      this.state = 'unauthenticated'
-    }
-
-    if (status === 403) {
-      this.state = 'unauthorized'
-    }
-
-    if (status === 500) {
-      this.state = 'error'
-    }
+    const { course } = await this.$ck.loadCourse(courseId)
+    const { lesson, status } = await this.$ck.loadLesson(courseId, lessonId)
+    this.course = course
+    this.lesson = lesson
+    this.setState(status)
   },
   methods: {
+    setState(status) {
+      switch(status) {
+        case 200:
+          this.state = 'ready'
+          break
+        case 401:
+          this.state = 'unauthenticated'
+          break
+        case 403:
+          this.state = 'unauthorized'
+          break
+        case 500:
+          this.state = 'error'
+          break
+        default:
+          this.state ='loading'
+      }
+    },
     async completeAndContinue() {
-      await this.$user.markComplete(this.course.id, this.lesson.id)
-      const nextLesson = this.$store.getters.getLesson(
-        this.course.id,
-        this.$user.getNextLessonId(this.course.id)
-      )
-      window.location.href = `/courses/${this.course.id}/lessons/${nextLesson.id}`
+      await this.lesson.markComplete()
+      window.location.href = `/courses/${this.course.id}/lessons/${this.course.nextLessonId}`
     },
   },
 }
