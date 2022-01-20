@@ -6,6 +6,12 @@
         <p>To complete your enrollment, check your email and activate your account.</p>
       </div>
     </Alert>
+    <Alert v-if="error" type="error">
+      <h3 class="font-medium text-red-800">Purchase unsuccessful...</h3>
+      <div class="mt-2 text-sm text-red-700">
+        <p>To complete your enrollment you'll need to retry your purchase.</p>
+      </div>
+    </Alert>
     <Alert v-if="registered">
       <h3 class="font-medium text-green-800">Thanks for registering!</h3>
       <div class="mt-2 text-sm text-green-700">
@@ -30,12 +36,19 @@
       </div>
     </div>
     <div v-else>
-      <a :href="course.productUrl" class="inline-block my-6 btn-lg bg-yellow-600 text-white">
+      <a @click="enroll" class="inline-block my-6 btn-lg bg-yellow-600 text-white">
         Enroll now
       </a>
+      <stripe-checkout
+        ref="checkoutRef"
+        mode="payment"
+        :pk="pk"
+        :line-items=" [{ price: course.meta.stripePriceId, quantity: 1 }]"
+        :success-url="successURL"
+        :cancel-url="cancelURL"
+        @loading="v => loading = v"
+      />
     </div>
-
-
     <h2 class="mt-6 text-yellow-900 text-2xl font-bold">Lessons</h2>
     <div v-if="course" class="mt-6 grid lg:grid-cols-3 md:grid-cols-2 sm:grid-cols-1 gap-8">
       <Card
@@ -64,11 +77,12 @@
 
 <script>
 import { CheckCircleIcon } from '@vue-hero-icons/solid'
-import ProgressRing from '../../components/ProgressRing'
+import ProgressRing from '@/components/ProgressRing'
+
 export default {
   components: {
     ProgressRing,
-    CheckCircleIcon,
+    CheckCircleIcon
   },
   async asyncData({ app, params, error }) {
     const { id } = params
@@ -85,7 +99,12 @@ export default {
     course: {},
     nextLesson: {},
     sale: false,
+    error:false,
     registered: false,
+    loading: false,
+    successURL: process.client ? `${window.location.origin}${window.location.pathname}?sale=true` : null,
+    cancelURL: process.client ? `${window.location.origin}${window.location.pathname}?error=true` : null,
+    pk: process.env.STRIPE_PUBLIC_KEY
   }),
   async created() {
     const courseId = this.$route.params.id
@@ -98,9 +117,17 @@ export default {
     this.course = course.course
     this.nextLesson = lesson.lesson
   },
+  methods: {
+    enroll () {
+      this.$refs.checkoutRef.redirectToCheckout()
+    }
+  },
   mounted() {
     if (this.$route.query.sale) {
       this.sale = true
+    }
+    if (this.$route.query.error) {
+      this.error = true
     }
     if (this.$route.query.registered) {
       this.registered = true
