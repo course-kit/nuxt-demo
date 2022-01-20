@@ -7,7 +7,7 @@
     </div>
     <div v-else-if="state === 'unauthenticated'" class="italic">
       You'll need to
-      <span class="underline cursor-pointer" @click="$user.login({ courseId: course.id })">
+      <span class="underline cursor-pointer" @click="$user.loginRedirect({ courseId: course.id })">
         log in
       </span>
       or

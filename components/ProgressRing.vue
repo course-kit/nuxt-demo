@@ -14,9 +14,9 @@
         }"></circle>
     </svg>
     <div class="absolute center flex flex-col justify-center content-center">
-      <h2 class="text-yellow-900 text-3xl font-bold text-center">
+      <h2 class="text-yellow-900 text-2xl font-bold text-center">
         {{ percentage }}
-        <span class="text-xl">%</span>
+        <span class="text-lg">%</span>
       </h2>
       <span class="text-yellow-900 text-sm">progress</span>
     </div>

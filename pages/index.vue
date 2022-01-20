@@ -6,8 +6,8 @@
         v-for="course in courses"
         :key="course.id"
         :title="course.title"
-        :description="course.description"
-        :thumb="course.thumb"
+        :description="course.meta.description"
+        :thumb="course.meta.thumb"
         :path="`/courses/${course.id}`">
         <template #buttons>
           <button class="btn-sm mt-6 text-yellow-600 border-2 border-yellow-600 bg-transparent">

@@ -66,7 +66,13 @@ export default {
     },
     async completeAndContinue() {
       await this.lesson.markComplete()
-      window.location.href = `/courses/${this.course.id}/lessons/${this.course.nextLessonId}`
+      const courseId = this.course.id
+      const { course } = await this.$ck.loadCourse(courseId)
+      if (course.nextLessonId) {
+        window.location.href = `/courses/${courseId}/lessons/${course.nextLessonId}`
+      } else {
+        window.location.href = `/courses/${courseId}`
+      }
     },
   },
 }

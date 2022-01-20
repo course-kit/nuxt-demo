@@ -24,8 +24,8 @@
         <nuxt-link
           :to="`/courses/${course.id}/lessons/${nextLesson.id}`"
           class="inline-block bg-yellow-600 text-white btn-lg mb-6">
-          <span v-if="nextLesson.id === course.lessons[0].id">Get started</span>
-          <span v-else>Continue with lesson {{ course.lessons.findIndex(l => l.id === nextLesson.id) + 1 }}</span>
+          <span v-if="course.nextLessonId && nextLesson.id === course.lessons[0].id">Get started</span>
+          <span v-else>Continue with lesson {{ nextLesson.order }}</span>
         </nuxt-link>
       </div>
     </div>
@@ -42,8 +42,8 @@
         v-for="lesson in course.lessons"
         :key="lesson.id"
         :title="lesson.title"
-        :description="lesson.description"
-        :thumb="lesson.thumb"
+        :description="lesson.meta.description"
+        :thumb="lesson.meta.thumb"
         :path="`/courses/${course.id}/lessons/${lesson.id}`">
         <template #overlay>
           <div class="flex justify-end">
@@ -77,11 +77,9 @@ export default {
     if (course.status === 404) {
       return error({ statusCode: 404, message: 'Course not found' })
     }
-    let lesson
-    if (course.course.nextLessonId) {
-      lesson = await $ck.loadLesson(id, course.course.nextLessonId)
-    }
-    return { course: course.course, nextLesson: lesson ? lesson.lesson : null }
+    const lessonId = course.course.nextLessonId ? course.course.nextLessonId : course.course.lessons[0].id
+    const lesson = await $ck.loadLesson(id, lessonId)
+    return { course: course.course, nextLesson: lesson.lesson }
   },
   data: () => ({
     course: {},
@@ -95,12 +93,10 @@ export default {
     if (course.status === 404) {
       return this.$nuxt.error({ statusCode: 404, message: 'Course not found' })
     }
-    let lesson
-    if (course.course.nextLessonId) {
-      lesson = await this.$ck.loadLesson(courseId, course.course.nextLessonId)
-    }
+    const lessonId = course.course.nextLessonId ? course.course.nextLessonId : course.course.lessons[0].id
+    const lesson = await this.$ck.loadLesson(courseId, lessonId)
     this.course = course.course
-    this.nextLesson = lesson ? lesson.lesson : null
+    this.nextLesson = lesson.lesson
   },
   mounted() {
     if (this.$route.query.sale) {
