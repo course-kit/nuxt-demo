@@ -24,9 +24,8 @@ export default {
   },
 
   env: {
-    schoolId: 'sc2tbvt3pl',
-    NODE_ENV: process.env.NODE_ENV || 'development',
-    API_URL: process.env.API_URL || 'http://api.coursekit.test:8080'
+    SCHOOL_ID: process.env.SCHOOL_ID,
+    NODE_ENV: process.env.NODE_ENV || 'development'
   },
 
   // Global CSS: https://go.nuxtjs.dev/config-css
