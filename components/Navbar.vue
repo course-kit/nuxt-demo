@@ -2,7 +2,7 @@
   <nav class="border-b-2 border-yellow-600 fixed z-50 w-full bg-yellow-50">
     <div class="container mx-auto">
       <div class="px-6 sm:px-12">
-        <div class="flex justify-between py-4">
+        <div class="flex justify-between py-4 items-center">
           <div class="flex space-x-8">
             <nuxt-link to="/" class="flex items-center">
               <!--<img src="logo.png" alt="Logo" class="h-8 w-8 mr-2 bg-gray-50" />-->

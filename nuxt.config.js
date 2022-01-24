@@ -1,9 +1,5 @@
 export default {
 
-  server: {
-    port: 3030
-  },
-
   target: 'static',
 
   // Global page headers: https://go.nuxtjs.dev/config-head
@@ -24,12 +20,15 @@ export default {
     script: [
       { src: 'https://js.stripe.com/v3' },
     ],
+    bodyAttrs: {
+      class: 'bg-yellow-50'
+    }
   },
 
   env: {
-    API_URL: process.env.API_URL || 'http://api.coursekit.test:8080',
+    API_URL: process.env.API_URL || 'https://api.coursekit.dev',
     STRIPE_PUBLIC_KEY: process.env.STRIPE_PUBLIC_KEY,
-    SCHOOL_ID: process.env.SCHOOL_ID,
+    SCHOOL_ID: process.env.COURSEKIT_SCHOOL_ID,
     NODE_ENV: process.env.NODE_ENV || 'development'
   },
 
@@ -40,7 +39,8 @@ export default {
   // Plugins to run before rendering page: https://go.nuxtjs.dev/config-plugins
   plugins: [
     '~/plugins/init.js',
-    { src: '~/plugins/vue-stripe.js', ssr: false }
+    { src: '~/plugins/vue-stripe.js', ssr: false },
+    { src: `~plugins/vue-vimeo` }
   ],
 
   // Auto import components: https://go.nuxtjs.dev/config-components
@@ -70,7 +70,10 @@ export default {
   build: {
     extend(config, { isDev }) {
 
-    }
+    },
+    vendor: [
+      'vue-vimeo-player'
+    ],
   },
 
   tailwindcss: {

@@ -8,7 +8,7 @@
     "start": "nuxt start",
     "generate": "nuxt generate",
     "lint:js": "eslint --ext \".js,.vue\" --ignore-path .gitignore .",
-    "prettier": "prettier -w components layouts pages plugins store",
+    "prettier": "prettier -w components functions layouts pages plugins",
     "lint": "npm run prettier && npm run lint:js --fix"
   },
   "dependencies": {
@@ -19,7 +19,7 @@
     "@tailwindcss/aspect-ratio": "^0.3.0",
     "@tailwindcss/typography": "^0.4.1",
     "@vue-hero-icons/solid": "^1.7.2",
-    "@vue-stripe/vue-stripe": "4.1.0",
+    "@vue-stripe/vue-stripe": "^4.1.0",
     "core-js": "^3.15.1",
     "markdown-it": "^12.3.2",
     "node-fetch": "^2.6.7",
@@ -27,6 +27,7 @@
     "stripe": "^8.198.0",
     "vue": "^2.6.14",
     "vue-spinner": "^1.0.4",
+    "vue-vimeo-player": "0.2.2",
     "vuex": "^3.6.2"
   },
   "devDependencies": {

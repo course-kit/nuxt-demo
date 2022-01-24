@@ -2,6 +2,5 @@
   "semi": false,
   "singleQuote": true,
   "bracketSameLine": true,
-  "printWidth": 100,
-  "htmlWhitespaceSensitivity": "ignore"
+  "printWidth": 100
 }

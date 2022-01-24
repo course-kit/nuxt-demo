@@ -7,7 +7,7 @@ module.exports = {
     plugin(function({ addUtilities }) {
       const newUtilities = {
         '.max-w-video': {
-          'max-width': '760px',
+          'max-width': '640px',
         }
       }
       addUtilities(newUtilities, ['responsive', 'hover'])

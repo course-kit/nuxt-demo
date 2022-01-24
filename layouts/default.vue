@@ -13,9 +13,6 @@
 import Navbar from '../components/Navbar'
 import Footer from '../components/Footer'
 export default {
-  components: { Footer, Navbar },
-  mounted() {
-    document.body.classList.add('bg-yellow-50')
-  },
+  components: { Footer, Navbar }
 }
 </script>

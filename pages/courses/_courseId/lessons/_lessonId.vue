@@ -1,13 +1,20 @@
 <template>
   <div>
     <p class="text-yellow-900 mb-8 text-lg">
-      <nuxt-link class="underline" :to="`/courses/${course.id}`">
-        {{ course.title }}
-      </nuxt-link>
+      <nuxt-link class="underline" :to="`/courses/${course.id}`">{{ course.title }}</nuxt-link>
       <span class="px-3">></span>
       <span class="font-bold">{{ lesson.title }}</span>
     </p>
     <div>
+      <client-only>
+        <div v-if="lesson.meta.vimeoId" class="max-w-video mb-4">
+          <div class="aspect-w-16 aspect-h-9">
+            <vimeo-player
+              :video-id="lesson.meta.vimeoId"
+              :options="{ responsive: true }"></vimeo-player>
+          </div>
+        </div>
+      </client-only>
       <Content :content="lesson.html" :state="state" :course="course" :lesson="lesson" />
       <div v-if="course.enrolled" class="pt-8">
         <button
@@ -20,7 +27,11 @@
   </div>
 </template>
 <script>
+import Content from '@/components/Content'
 export default {
+  components: {
+    Content,
+  },
   async asyncData({ app, params, error }) {
     const { courseId, lessonId } = params
     const { $ck } = app
@@ -47,7 +58,7 @@ export default {
   },
   methods: {
     setState(status) {
-      switch(status) {
+      switch (status) {
         case 200:
           this.state = 'ready'
           break
@@ -61,7 +72,7 @@ export default {
           this.state = 'error'
           break
         default:
-          this.state ='loading'
+          this.state = 'loading'
       }
     },
     async completeAndContinue() {

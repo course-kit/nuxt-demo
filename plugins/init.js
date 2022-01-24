@@ -2,7 +2,7 @@ import { CourseKitClient } from '@coursekit/client'
 
 export default async function ({ store, app }, inject) {
   const opts = {
-    schoolId: process.env.SCHOOL_ID
+    schoolId: process.env.SCHOOL_ID,
   }
   if (process.env.NODE_ENV === 'development') {
     opts.baseUrl = process.env.API_URL

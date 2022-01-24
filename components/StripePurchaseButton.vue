@@ -1,0 +1,45 @@
+<template>
+  <span>
+    <stripe-checkout
+      ref="checkoutRef"
+      class="inline-block"
+      mode="payment"
+      :pk="pk"
+      :line-items="[{ price: priceId, quantity: 1 }]"
+      :success-url="successURL"
+      :cancel-url="cancelURL"
+      @loading="$emit('loading')" />
+    <span @click="enroll">
+      <slot />
+    </span>
+  </span>
+</template>
+<script>
+export default {
+  props: {
+    priceId: {
+      type: String,
+      required: true,
+    },
+    text: {
+      type: String,
+      default: 'Enroll now',
+    },
+  },
+  data: () => ({
+    successURL: process.client
+      ? `${window.location.origin}${window.location.pathname}?sale=true`
+      : null,
+    cancelURL: process.client
+      ? `${window.location.origin}${window.location.pathname}?error=true`
+      : null,
+    pk: process.env.STRIPE_PUBLIC_KEY,
+    loading: false,
+  }),
+  methods: {
+    enroll() {
+      this.$refs.checkoutRef.redirectToCheckout()
+    },
+  },
+}
+</script>

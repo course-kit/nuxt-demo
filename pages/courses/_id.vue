@@ -30,24 +30,23 @@
         <nuxt-link
           :to="`/courses/${course.id}/lessons/${nextLesson.id}`"
           class="inline-block bg-yellow-600 text-white btn-lg mb-6">
-          <span v-if="course.nextLessonId && nextLesson.id === course.lessons[0].id">Get started</span>
+          <span v-if="course.nextLessonId && nextLesson.id === course.lessons[0].id">
+            Get started
+          </span>
           <span v-else>Continue with lesson {{ nextLesson.order }}</span>
         </nuxt-link>
       </div>
     </div>
     <div v-else>
-      <a @click="enroll" class="inline-block my-6 btn-lg bg-yellow-600 text-white">
-        Enroll now
-      </a>
-      <stripe-checkout
-        ref="checkoutRef"
-        mode="payment"
-        :pk="pk"
-        :line-items=" [{ price: course.meta.stripePriceId, quantity: 1 }]"
-        :success-url="successURL"
-        :cancel-url="cancelURL"
-        @loading="v => loading = v"
-      />
+      <client-only>
+        <stripe-purchase-button
+          class="inline-block my-6 btn-lg bg-yellow-600 text-white"
+          :price-id="course.meta.stripePriceId"
+          @loading="loading = true">
+          <span v-if="loading">Loading...</span>
+          <span v-else class="font-bold">Enroll now</span>
+        </stripe-purchase-button>
+      </client-only>
     </div>
     <h2 class="mt-6 text-yellow-900 text-2xl font-bold">Lessons</h2>
     <div v-if="course" class="mt-6 grid lg:grid-cols-3 md:grid-cols-2 sm:grid-cols-1 gap-8">
@@ -82,7 +81,7 @@ import ProgressRing from '@/components/ProgressRing'
 export default {
   components: {
     ProgressRing,
-    CheckCircleIcon
+    CheckCircleIcon,
   },
   async asyncData({ app, params, error }) {
     const { id } = params
@@ -91,7 +90,9 @@ export default {
     if (course.status === 404) {
       return error({ statusCode: 404, message: 'Course not found' })
     }
-    const lessonId = course.course.nextLessonId ? course.course.nextLessonId : course.course.lessons[0].id
+    const lessonId = course.course.nextLessonId
+      ? course.course.nextLessonId
+      : course.course.lessons[0].id
     const lesson = await $ck.loadLesson(id, lessonId)
     return { course: course.course, nextLesson: lesson.lesson }
   },
@@ -99,12 +100,9 @@ export default {
     course: {},
     nextLesson: {},
     sale: false,
-    error:false,
+    error: false,
     registered: false,
     loading: false,
-    successURL: process.client ? `${window.location.origin}${window.location.pathname}?sale=true` : null,
-    cancelURL: process.client ? `${window.location.origin}${window.location.pathname}?error=true` : null,
-    pk: process.env.STRIPE_PUBLIC_KEY
   }),
   async created() {
     const courseId = this.$route.params.id
@@ -112,15 +110,12 @@ export default {
     if (course.status === 404) {
       return this.$nuxt.error({ statusCode: 404, message: 'Course not found' })
     }
-    const lessonId = course.course.nextLessonId ? course.course.nextLessonId : course.course.lessons[0].id
+    const lessonId = course.course.nextLessonId
+      ? course.course.nextLessonId
+      : course.course.lessons[0].id
     const lesson = await this.$ck.loadLesson(courseId, lessonId)
     this.course = course.course
     this.nextLesson = lesson.lesson
-  },
-  methods: {
-    enroll () {
-      this.$refs.checkoutRef.redirectToCheckout()
-    }
   },
   mounted() {
     if (this.$route.query.sale) {
