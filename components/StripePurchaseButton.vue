@@ -1,6 +1,7 @@
 <template>
   <span>
     <stripe-checkout
+      v-if="pk"
       ref="checkoutRef"
       class="inline-block"
       mode="payment"
@@ -19,7 +20,7 @@ export default {
   props: {
     priceId: {
       type: String,
-      required: true,
+      default: null,
     },
     text: {
       type: String,
@@ -38,7 +39,11 @@ export default {
   }),
   methods: {
     enroll() {
-      this.$refs.checkoutRef.redirectToCheckout()
+      if (this.pk) {
+        this.$refs.checkoutRef.redirectToCheckout()
+      } else {
+        console.warn('Missing STRIPE_PUBLIC_KEY env variable.')
+      }
     },
   },
 }
