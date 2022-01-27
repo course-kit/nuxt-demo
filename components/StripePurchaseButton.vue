@@ -31,16 +31,24 @@ export default {
       default: 'Enroll now',
     },
   },
-  data: () => ({
-    successURL: process.client
-      ? `${window.location.origin}/courses/${this.courseId}?sale=true`
-      : null,
-    cancelURL: process.client
-      ? `${window.location.origin}/courses/${this.courseId}?error=true`
-      : null,
-    pk: process.env.STRIPE_PUBLIC_KEY,
-    loading: false,
-  }),
+  data: () => {
+    return {
+      pk: process.env.STRIPE_PUBLIC_KEY,
+      loading: false,
+    }
+  },
+  computed: {
+    successURL() {
+      return process.client
+        ? `${window.location.origin}/courses/${this.courseId}?sale=true`
+        : null
+    },
+    cancelURL() {
+      return process.client
+        ? `${window.location.origin}/courses/${this.courseId}?error=true`
+        : null
+    }
+  },
   methods: {
     enroll() {
       if (this.pk) {

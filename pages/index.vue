@@ -41,14 +41,14 @@ export default {
   components: { Card, CheckCircleIcon },
   async asyncData({ app }) {
     const { $ck } = app
-    const { courses } = await $ck.loadAllCourses()
+    const { courses } = await $ck.loadCourseSummaries()
     return { courses }
   },
   data: () => ({
     courses: [],
   }),
   async created() {
-    const { courses } = await this.$ck.loadAllCourses()
+    const { courses } = await this.$ck.loadCourseSummaries()
     this.courses = courses
   },
   methods: {
