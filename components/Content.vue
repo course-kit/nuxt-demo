@@ -10,6 +10,7 @@
         You'll need to
         <stripe-purchase-button
           class="underline cursor-pointer"
+          :course-id="course.id"
           :price-id="course.meta.stripePriceId"
           @loading="loading = true"
           >enroll</stripe-purchase-button
@@ -25,6 +26,7 @@
       or
       <stripe-purchase-button
         class="underline cursor-pointer"
+        :course-id="course.id"
         :price-id="course.meta.stripePriceId"
         @loading="loading = true"
         >enroll</stripe-purchase-button

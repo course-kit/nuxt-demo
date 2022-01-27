@@ -41,6 +41,7 @@
       <client-only>
         <stripe-purchase-button
           class="inline-block my-6 btn-lg bg-yellow-600 text-white"
+          :course-id="course.id"
           :price-id="course.meta.stripePriceId"
           @loading="loading = true">
           <span v-if="loading">Loading...</span>

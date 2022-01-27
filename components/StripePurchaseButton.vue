@@ -18,6 +18,10 @@
 <script>
 export default {
   props: {
+    courseId: {
+      type: String,
+      required: true,
+    },
     priceId: {
       type: String,
       default: null,
@@ -29,10 +33,10 @@ export default {
   },
   data: () => ({
     successURL: process.client
-      ? `${window.location.origin}${window.location.pathname}?sale=true`
+      ? `${window.location.origin}/courses/${this.courseId}?sale=true`
       : null,
     cancelURL: process.client
-      ? `${window.location.origin}${window.location.pathname}?error=true`
+      ? `${window.location.origin}/courses/${this.courseId}?error=true`
       : null,
     pk: process.env.STRIPE_PUBLIC_KEY,
     loading: false,
