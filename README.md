@@ -17,8 +17,8 @@ For detailed instructions on installation take a look at the [CourseKit Quick St
 Clone repo, enter dir, and install NPM modules:
 
 ```
-cd nuxt-demo
-npm i
+$ cd nuxt-demo
+$ npm i
 ```
 
 Next, create a .env file with the following values set:
@@ -53,11 +53,11 @@ STRIPE_WEBHOOK_SECRET=whsec_juKuS....
 Now, start (or restart) the Netlify dev server. This should use the default port value 8888.
 
 ```
-netlify dev
+$ netlify dev
 ```
 
 In yet another terminal window, trigger a test event:
 
 ```
-stripe trigger checkout.session.completed
+$ stripe trigger checkout.session.completed
 ```
