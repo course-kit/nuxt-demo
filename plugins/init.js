@@ -5,7 +5,6 @@ export default async function ({ store, app }, inject) {
     schoolId: process.env.SCHOOL_ID,
   }
   if (process.env.NODE_ENV === 'development') {
-    opts.baseUrl = process.env.API_URL
     opts.devMode = true
   }
   const ck = new CourseKitClient(opts)

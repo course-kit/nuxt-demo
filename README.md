@@ -4,19 +4,41 @@
 
 This repo is for the Nuxt Demo which provides both a case study in how to implement CourseKit using Nuxt.js as well as a template you can clone for your own CourseKit project.
 
+For detailed instructions on installation take a look at the [CourseKit Quick Start Guide](https://github.com/course-kit/guides/blob/master/quick-start.md).
+
 ## Live demo
 
 [https://coursekit-nuxt-demo.netlify.app/](https://coursekit-nuxt-demo.netlify.app/)
 
 ## Installation and setup
 
-If you'd like to install this locally you should follow the instructions in the [CourseKit Quickstart Guide](https://github.com/course-kit/guides/blob/master/quick-start.md).
+> Note: you'll need [Netlify CLI](https://docs.netlify.com/cli/get-started/) installed.
+
+Clone repo, enter dir, and install NPM modules:
+
+```
+cd nuxt-demo
+npm i
+```
+
+Next, create a .env file with the following values set:
+
+```
+NODE_ENV=development
+COURSEKIT_SCHOOL_ID=<your school ID>
+```
+
+Run the Netlify dev server:
+
+```
+$ netlify dev
+```
 
 ## Testing Stripe webhook
 
-Ensure that you've first set up a Stripe account and created a product as explained in [this guide]().
+Ensure that you've first set up a Stripe account and created a product as explained in [part 2 of the quickstart guide](https://github.com/course-kit/guides/blob/master/quick-start-part-2.md).
 
-You'll need to have Stripe CLI installed. Then, run it in a separate terminal:
+Ensure you have Stripe CLI installed. Run the listener in a separate terminal:
 
 ```
 $ stripe listen --forward-to localhost:8888/.netlify/functions/purchase-callback
@@ -28,13 +50,13 @@ In the terminal output it will print the webhook signing secret e.g. *whsec_juK.
 STRIPE_WEBHOOK_SECRET=whsec_juKuS....
 ```
 
-Now, start (or restart) the Netlify dev server. By default, this will be at port 8888
+Now, start (or restart) the Netlify dev server. This should use the default port value 8888.
 
 ```
 netlify dev
 ```
 
-In yet another terminal window, trigger a test event
+In yet another terminal window, trigger a test event:
 
 ```
 stripe trigger checkout.session.completed
