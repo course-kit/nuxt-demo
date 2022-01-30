@@ -33,7 +33,7 @@ export default {
   },
   data: () => {
     return {
-      pk: process.env.STRIPE_PUBLIC_KEY,
+      pk: process.env.STRIPE_PUBLISHABLE_KEY,
       loading: false,
     }
   },
@@ -54,7 +54,7 @@ export default {
       if (this.pk) {
         this.$refs.checkoutRef.redirectToCheckout()
       } else {
-        console.warn('Missing STRIPE_PUBLIC_KEY env variable.')
+        console.warn('Missing STRIPE_PUBLISHABLE_KEY env variable.')
       }
     },
   },

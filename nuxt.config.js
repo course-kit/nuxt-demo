@@ -27,7 +27,7 @@ export default {
 
   env: {
     API_URL: process.env.API_URL || 'https://api.coursekit.dev',
-    STRIPE_PUBLIC_KEY: process.env.STRIPE_PUBLIC_KEY,
+    STRIPE_PUBLISHABLE_KEY: process.env.STRIPE_PUBLISHABLE_KEY,
     SCHOOL_ID: process.env.COURSEKIT_SCHOOL_ID,
     NODE_ENV: process.env.NODE_ENV || 'development'
   },
