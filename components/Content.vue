@@ -1,7 +1,7 @@
 <template>
   <div>
     <div v-if="state === 'loading'">Loading content...</div>
-    <div v-else-if="state === 'ready'">
+    <div v-else-if="state === 'ready' || content">
       <div v-html="content" />
     </div>
     <div v-else-if="state === 'unauthorized'">
