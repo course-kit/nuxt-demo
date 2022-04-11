@@ -1,6 +1,6 @@
 {
   "name": "nuxt-coursekit-demo",
-  "version": "0.2.0",
+  "version": "0.2.1",
   "private": false,
   "scripts": {
     "dev": "nuxt",
@@ -12,7 +12,7 @@
     "lint": "npm run prettier && npm run lint:js --fix"
   },
   "dependencies": {
-    "@coursekit/client": "^0.2.0",
+    "@coursekit/client": "^0.2.1-beta.0",
     "@nuxtjs/axios": "^5.13.6",
     "@nuxtjs/eslint-module": "^3.0.2",
     "@nuxtjs/tailwindcss": "^4.2.0",
